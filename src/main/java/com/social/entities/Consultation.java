@@ -26,12 +26,10 @@ public class Consultation {
 
 
     private String objet;
-
     private String message;
-
-  private String dateCreation;
-  private String lieuConsultation;
-
+    private String dateCreation;
+    private String lieuConsultation;
+    private int mentant;
     public Long getIdConsultation() {
         return idConsultation;
     }
@@ -84,13 +82,23 @@ public class Consultation {
     public void setObjet(String objet) {
         this.objet = objet;
     }
+
+    public int getMentant() {
+        return mentant;
+    }
+
+    public void setMentant(int mentant) {
+        this.mentant = mentant;
+    }
+
     @JsonCreator
-    public Consultation(@JsonProperty("fournisseurList") Provider fournisseurList, @JsonProperty("objet") String objet, @JsonProperty("message") String message, @JsonProperty("dateCreation") String dateCreation, @JsonProperty("lieuConsultation")String lieuConsultation) {
+    public Consultation(@JsonProperty("fournisseurList") Provider fournisseurList, @JsonProperty("objet") String objet, @JsonProperty("message") String message, @JsonProperty("dateCreation") String dateCreation, @JsonProperty("lieuConsultation")String lieuConsultation , @JsonProperty("mentant")int mentant) {
         this.fournisseurList = fournisseurList;
         this.objet = objet;
         this.message = message;
         this.dateCreation = dateCreation;
         this.lieuConsultation = lieuConsultation;
+        this.mentant=mentant;
     }
 
     public Consultation() {

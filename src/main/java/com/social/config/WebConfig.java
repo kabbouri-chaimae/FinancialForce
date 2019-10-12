@@ -80,7 +80,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
 		http.cors().and()
 		// starts authorizing configurations
 				.authorizeRequests()
-				.antMatchers("/account/login", "/account/register" ,"/account/consultation",  "/account/allUsers" , "/account/selectedSocieties")
+				.antMatchers("/account/login", "/account/BC", "/account/postSelectedProviders", "/account/updatec/*" ,"/account/getAllConsultations" ,  "/account/register" ,"/account/consultation"," /account/getByObjectundefined", "/account/getByObject/**", "/account/getByObject",  "/account/getByObject/sdf" ,"/account/allUsers" , "/account/selectedSocieties")
 				.permitAll()
 				.and()
 				.authorizeRequests()

@@ -14,12 +14,12 @@ public class ProviderService {
 
 
 
-    public Provider save(Provider user) {
-        return providerRepository.saveAndFlush(user);
+    public Provider save(Provider p) {
+        return providerRepository.saveAndFlush(p);
     }
 
-    public Provider update(Provider user) {
-        return providerRepository.save(user);
+    public Provider update(Provider p) {
+        return providerRepository.save(p);
     }
 
     public Provider find(String userName) {

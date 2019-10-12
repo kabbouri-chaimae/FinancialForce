@@ -2,11 +2,10 @@ package com.social.controller;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
-import com.social.dao.DevisRepository;
-import com.social.entities.Consultation;
-import com.social.entities.Devis;
-import com.social.entities.Provider;
+import com.social.entities.*;
+import com.social.services.BcService;
 import com.social.services.ConsultationService;
 import com.social.services.ProviderService;
 import org.slf4j.Logger;
@@ -14,17 +13,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 
 import com.social.services.UserService;
 import com.social.util.CustomErrorType;
-import com.social.entities.User;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
@@ -36,27 +31,46 @@ public class AccountController {
 
 	public static final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
+
+	@Autowired
+	private BcService bcService;
+
 	@Autowired
 	private UserService userService;
 	@Autowired
 
 	private ProviderService providerService;
 
-	@Autowired
 
-	private DevisRepository devisRepository;
 
 	@Autowired
 	private ConsultationService consultationService;
 	// request method to create a new account by a guest
+	@CrossOrigin
+	@RequestMapping(value = "/postSelectedProviders", method = RequestMethod.POST)
+	public ResponseEntity<?> createProvider(@RequestBody Provider provider) {
 
+		System.out.println("===> working");
+
+		return new ResponseEntity<Provider>(providerService.save(provider), HttpStatus.CREATED);
+	}
 	@CrossOrigin
 	@RequestMapping(value = "/consultation", method = RequestMethod.POST)
 	public ResponseEntity<?> createConsultation(@RequestBody Consultation consultation) {
 
 		System.out.println("===> working");
+    Consultation consu = consultationService.save(consultation);
 
 		return new ResponseEntity<Consultation>(consultationService.save(consultation), HttpStatus.CREATED);
+	}
+	@CrossOrigin
+	@RequestMapping(value = "/BC", method = RequestMethod.POST)
+	public ResponseEntity<Bc> postBC(@RequestBody Bc bc) {
+
+		System.out.println("===> working");
+		Bc b = bcService.save(bc);
+
+		return new ResponseEntity<Bc>(bcService.save(bc), HttpStatus.CREATED);
 	}
 	@CrossOrigin
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -74,13 +88,7 @@ public class AccountController {
 	}
 
 
-	@CrossOrigin
-	@RequestMapping(value = "/saveDevis", method = RequestMethod.POST)
-	public ResponseEntity<?> createDevis(@RequestBody Devis newDevis) {
 
-
-		return new ResponseEntity<Devis>(devisRepository.save(newDevis), HttpStatus.CREATED);
-	}
 	// this is the login api/service
 	@CrossOrigin
 	@RequestMapping("/allUsers")
@@ -89,13 +97,7 @@ public class AccountController {
   return userService.findAll();
 
 }
-	@CrossOrigin
-	@RequestMapping("/getByObject")
-	public Consultation getByObject(String object) {
 
-		return consultationService.find(object);
-
-	}
 	@RequestMapping(value = "/logout")
 	public String logout(){
 		try {
@@ -129,6 +131,7 @@ public class AccountController {
 
 	}
 
+
 	@CrossOrigin
 	@RequestMapping("/selectedSociety")
 	public Provider findSociety(String pname) {
@@ -145,12 +148,33 @@ public class AccountController {
 	}
 	@CrossOrigin
 	@GetMapping("/getByObject/{objet}")
-	public ResponseEntity<?> get(@PathVariable("objet") String object) {
-		Consultation consultation = consultationService.find(object);
-		System.out.println(consultation.getObjet());
-		return ResponseEntity.ok().body(consultation);
+	public ResponseEntity<?> get(@PathVariable("objet") String objet) {
+		List<Consultation> consultations = consultationService.find(objet);
+		return ResponseEntity.ok().body(consultations);
 	}
 
+	@CrossOrigin
+	@GetMapping("/getAllConsultations")
+	public List<Consultation> ListConsultations() {
+
+		return consultationService.findAll();
+
+	}
+
+	@CrossOrigin
+	@PutMapping("updatec/{idConsultation}")
+	public ResponseEntity<Consultation> updateConsultation(@PathVariable("idConsultation") Long idConsultation , @RequestBody Consultation consultation) {
+		Optional<Consultation> consData = Optional.ofNullable(consultationService.findById(idConsultation));
+		if (consData.isPresent()) {
+			Consultation consu = consData.get();
+			consu.setMentant(consultation.getMentant());
+			return new ResponseEntity<>(consultationService.update((consu)), HttpStatus.OK);
+		} else {
+
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+	}
 
 
 

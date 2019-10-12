@@ -18,15 +18,22 @@ public class ConsultationService {
     @Autowired
     ConsultationRepository consultationRepository;
 
+
     public Consultation save(Consultation co) {
         return consultationRepository.saveAndFlush(co);
     }
-  public Consultation find(String objet) {
-        return consultationRepository.findOneByObjet(objet);
+  public List<Consultation> find(String objet) {
+        return consultationRepository.findByObjet(objet);
     }
 
     public Consultation update(Consultation co) {
         return consultationRepository.save(co);
+    }
 
+    public Consultation findById(Long id) {
+        return consultationRepository.findByIdConsultation(id);
+    }
+    public List<Consultation> findAll() {
+        return consultationRepository.findAll();
     }
 }

@@ -1,20 +1,17 @@
 package com.social.dao;
 
-import com.social.entities.Consultation;
+import com.social.entities.Bc;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
-public interface ConsultationRepository extends JpaRepository<Consultation, Long>{
-    public List<Consultation> findByObjet(String userName);
+public interface BcRepository extends JpaRepository<Bc, Long>{
 
-    public Consultation saveAndFlush(Consultation consultation);
+    public Bc saveAndFlush(Bc bc);
 
-    public Consultation findByIdConsultation(Long id);
 
     //@Query("SELECT con FROM Contact con  WHERE con.phoneType=(:pType) AND con.lastName= (:lName)")
+
     // List<Provider> findByLastNameAndPhoneType(@Param("pType") String pType, @Param("lName") String lName);
 
 }

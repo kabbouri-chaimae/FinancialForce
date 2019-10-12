@@ -53,6 +53,12 @@ public  class Provider {
      */
     private String pcity;
     private String pcnss;
+    private String prc;
+    private String ppatente;
+    private String pif;
+    private String pice;
+    private String pbank;
+
 
     public String getPname() {
         return pname;
@@ -103,16 +109,62 @@ public  class Provider {
         this.pid = pid;
     }
 
+    public String getPrc() {
+        return prc;
+    }
+
+    public void setPrc(String prc) {
+        this.prc = prc;
+    }
+
+    public String getPpatente() {
+        return ppatente;
+    }
+
+    public void setPpatente(String ppatente) {
+        this.ppatente = ppatente;
+    }
+
+    public String getPif() {
+        return pif;
+    }
+
+    public void setPif(String pif) {
+        this.pif = pif;
+    }
+
+    public String getPice() {
+        return pice;
+    }
+
+    public void setPice(String pice) {
+        this.pice = pice;
+    }
+
+    public String getPbank() {
+        return pbank;
+    }
+
+    public void setPbank(String pbank) {
+        this.pbank = pbank;
+    }
+
+
     public Provider(){
 
     }
 
-    public Provider(String pname, String pbankaccount, String paddr, String pcity, String pcnss) {
+    public Provider(String pname, String pbankaccount, String paddr, String pcity, String pcnss, String prc, String ppatente, String pif, String pice, String pbank) {
         this.pname = pname;
         this.pbankaccount = pbankaccount;
         this.paddr = paddr;
         this.pcity = pcity;
         this.pcnss = pcnss;
+        this.prc = prc;
+        this.ppatente = ppatente;
+        this.pif = pif;
+        this.pice = pice;
+        this.pbank = pbank;
     }
 
     @Override
